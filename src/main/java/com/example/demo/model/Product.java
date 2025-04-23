@@ -27,6 +27,9 @@ public class Product {
     @Column(nullable = false)
     private boolean inStock;
 
+    @Version
+    private Long version;
+
 
     public Product(String name, float price, String description, String imageUrl, boolean inStock) {
         this.name = name;
@@ -52,9 +55,6 @@ public class Product {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getDescription() {
         return description;

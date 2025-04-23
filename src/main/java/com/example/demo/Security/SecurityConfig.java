@@ -34,10 +34,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(registery -> {
-                    registery.requestMatchers("/home", "/api/account/register", "/api/account/login", "/api/product/all", "/api/product/add").permitAll();
-                    registery.requestMatchers("/admin/**").hasRole("ADMIN");
-                    registery.requestMatchers("/user/**").hasRole("USER");
-                    registery.anyRequest().authenticated();
+                    // registery.requestMatchers("/api/account/register", "/api/account/login", "/api/product/all").permitAll();
+                    // registery.requestMatchers("/api/product/add").hasAuthority("ADMIN"); // Explicitly allow ADMIN to add products
+                    // registery.requestMatchers("/api/**").hasAuthority("ADMIN"); // This line is too restrictive and conflicts with the above rules
+                    // registery.requestMatchers("/api/admin/**").hasAuthority("ADMIN");
+                    // registery.anyRequest().authenticated();
+                    // registery.anyRequest().hasAuthority("ADMIN");
+                    registery.anyRequest().permitAll();
                 })
                 .build();
     }
@@ -50,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+    configuration.setAllowedOrigins(Arrays.asList("http://iprwcfrontend.s3-website.eu-north-1.amazonaws.com/"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
     configuration.setAllowCredentials(true);
